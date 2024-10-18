@@ -38,3 +38,6 @@
 - go test -v ./...
 
 - task integration-test
+- task acceptance-tests
+
+- task run
