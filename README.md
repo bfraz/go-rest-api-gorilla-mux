@@ -1,4 +1,4 @@
-# go-rest-api-course-v2
+# go-rest-api-gorilla-mux
 
 - brew install
     - go-task
