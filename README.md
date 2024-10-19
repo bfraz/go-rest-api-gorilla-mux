@@ -1,29 +1,47 @@
 # go-rest-api-gorilla-mux
 
-- brew install
-    - go-task
-    - golangci-lint
+## Setup
+
+#### 1. brew install:
+   - ```go-task``` (https://formulae.brew.sh/formula/go-task)
+   - ```golangci-lint``` (optional)
+#### 2. Install VS Code:
+   - https://code.visualstudio.com/download
 
 
-- go get 
-    - github.com/jmoiron/sqlx
-    - github.com/lib/pq
+## Run (Taskfile Options)
+(after installing ```go-task```)(https://taskfile.dev)
+```
+task build
+  (go build -o app cmd/server/main.go)
 
-    - github.com/golang-migrate/migrate/v4
-    - github.com/golang-migrate/migrate/v4/database/postgres
-    - github.com/golang-migrate/migrate/v4/source/file
+task test:
+  (go test -v ./...)
 
-    - github.com/satori/go.uuid
+task lint:
+  (golangci-lint run)
 
-    - github.com/gorilla/mux
+task run:
+  (docker-compose up --build)
+      
+integration-tests:
+  (docker-compose up -d db
+  go test -tags=integration -v ./...
+    env:
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_TABLE: postgres
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_DB: postgres
+      SSL_MODE: disable)
 
-    - github.com/dgrijalva/jwt-go
-    - github.com/go-playground/validator/v10
+task acceptance-tests:
+  (docker-compose up -d --build
+  go test -tags=e2e -v ./...)
+```
 
-    - github.com/stretchr/testify
-    - github.com/go-resty/resty/v2
-
-
+## Endpoints
 - curl -d "@testdata/createComment.json" http://localhost:8080/api/v1/comment -v --header 'Content-Type: application/json' --header 'Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.2yPNTTY3Y5jUwYBPAJAfUc84Ybv2qPbZY_OHI7tzuug'
 
 - curl http://localhost:8080/api/v1/comments -v --header 'Content-Type: application/json'
@@ -41,3 +59,23 @@
 - task acceptance-tests
 
 - task run
+
+
+### External Dependencies
+- go get 
+    - github.com/jmoiron/sqlx
+    - github.com/lib/pq
+
+    - github.com/golang-migrate/migrate/v4
+    - github.com/golang-migrate/migrate/v4/database/postgres
+    - github.com/golang-migrate/migrate/v4/source/file
+
+    - github.com/satori/go.uuid
+
+    - github.com/gorilla/mux
+
+    - github.com/dgrijalva/jwt-go
+    - github.com/go-playground/validator/v10
+
+    - github.com/stretchr/testify
+    - github.com/go-resty/resty/v2
