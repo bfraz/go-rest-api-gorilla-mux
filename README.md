@@ -2,7 +2,8 @@
 
 ## Setup
 
-#### 1. brew install:
+#### 1. Install:
+   - ```docker```
    - ```go-task``` (https://formulae.brew.sh/formula/go-task)
    - ```golangci-lint``` (optional)
 #### 2. Install VS Code:
